@@ -19,11 +19,11 @@ export class CompletedError extends Error { }
 
 /**
  * Retun true if `id` is completed.
- * @param snapshot event.data.data()
+ * @param data event.data.data()
  * @param id id
  */
-export const isCompleted = (snapshot: FirebaseFirestore.DocumentSnapshot, id: string) => {
-  const completed = snapshot.data()!.completed || {}
+export const isCompleted = (data: any, id: string) => {
+  const completed = data.completed || {}
   return !!completed[id]
 }
 
@@ -37,7 +37,7 @@ export const markCompleted = async (ref: FirebaseFirestore.DocumentReference, id
   let completed: { [id: string]: boolean } = {}
   await firestore.runTransaction(async (transaction) => {
     return transaction.get(ref).then(tref => {
-      if (isCompleted(tref, id)) {
+      if (isCompleted(tref.data()!, id)) {
         throw new CompletedError(id)
       } else {
         completed = tref.data()!.completed || {}

@@ -5,18 +5,27 @@ import * as FirebaseFirestore from '@google-cloud/firestore';
  */
 export declare const initialize: (adminOptions: any) => void;
 /**
- * When call `markCompleted()`, it will be thrown if already done.
+ * When called `markCompleted()`, CompletedError will be thrown if id is already completed.
  */
 export declare class CompletedError extends Error {
 }
-export declare const isCompleted: (snapshot: FirebaseFirestore.DocumentSnapshot, id: string) => boolean;
+/**
+ * Retun true if `id` is completed.
+ * @param data event.data.data()
+ * @param id id
+ */
+export declare const isCompleted: (data: any, id: string) => boolean;
 /**
  * Record completed when one process is complete.
  * Since this process uses Transaction, it takes time to complete, be careful.
  * @param ref event.data.ref
- * @param id mark id
+ * @param id id
  */
 export declare const markCompleted: (ref: FirebaseFirestore.DocumentReference, id: string) => Promise<{
     [id: string]: boolean;
 }>;
+/**
+ * Clear completed.
+ * @param ref event.data.ref
+ */
 export declare const clear: (ref: FirebaseFirestore.DocumentReference) => Promise<FirebaseFirestore.WriteResult>;

@@ -1,0 +1,108 @@
+import * as admin from 'firebase-admin'
+import * as Mission from '../mission-completed'
+import 'jest'
+
+jest.setTimeout(20000)
+
+beforeAll(() => {
+  const serviceAccount = require('../../sandbox-329fc-firebase-adminsdk.json')
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+  })
+  Mission.initialize(
+    {
+      projectId: 'sandbox-329fc',
+      keyFilename: './sandbox-329fc-firebase-adminsdk.json'
+    }
+  )
+})
+
+let user: FirebaseFirestore.DocumentReference
+const id = 'test'
+
+beforeEach(async () => {
+  user = await admin.firestore().collection('user').add({ name: 'test' })
+})
+
+describe('markCompleted', async () => {
+  describe('not marked completed', async () => {
+    test('record completed', async () => {
+      const completed = await Mission.markCompleted(user, id)
+      expect(completed[id]).toBe(true)
+      const updatedUser = await admin.firestore().doc(user.path).get().then(s => s.data()!)
+      expect(updatedUser.completed[id]).toBe(true)
+    })
+  })
+
+  describe('other id already marked completed', async () => {
+    test('true', async () => {
+      await Mission.markCompleted(user, 'other')
+      const completed = await Mission.markCompleted(user, id)
+      expect(completed[id]).toBe(true)
+      expect(completed.other).toBe(true)
+      const updatedUser = await admin.firestore().doc(user.path).get().then(s => s.data()!)
+      expect(updatedUser.completed[id]).toBe(true)
+    })
+  })
+
+  describe('already marked completed', async () => {
+    test('true', async () => {
+      await Mission.markCompleted(user, id)
+
+      expect.hasAssertions()
+      try {
+        await Mission.markCompleted(user, id)
+      } catch (e) {
+        expect(e).toBeInstanceOf(Mission.CompletedError)
+      }
+    })
+  })
+})
+
+describe('isCompleted', async () => {
+  describe('already marked completed', async () => {
+    test('true', async () => {
+      const completed = await Mission.markCompleted(user, id)
+
+      const updatedUser = await admin.firestore().doc(user.path).get().then(s => s.data()!)
+      expect(Mission.isCompleted(updatedUser, id)).toBe(true)
+    })
+  })
+
+  describe('not exist completed', async () => {
+    test('true', async () => {
+      const updatedUser = await admin.firestore().doc(user.path).get().then(s => s.data()!)
+      expect(Mission.isCompleted(updatedUser, id)).toBe(false)
+    })
+  })
+
+  describe('other id marked completed', async () => {
+    test('true', async () => {
+      const completed = await Mission.markCompleted(user, 'other')
+
+      const updatedUser = await admin.firestore().doc(user.path).get().then(s => s.data()!)
+      expect(Mission.isCompleted(updatedUser, id)).toBe(false)
+    })
+  })
+})
+
+describe('clear', async () => {
+  describe('already marked completed', async () => {
+    test('update to {}', async () => {
+      await Mission.markCompleted(user, id)
+      await Mission.clear(user)
+
+      const updatedUser = await admin.firestore().doc(user.path).get().then(s => s.data()!)
+      expect(updatedUser.completed).toEqual({})
+    })
+  })
+
+  describe('not exist completed', async () => {
+    test('update to {}', async () => {
+      await Mission.clear(user)
+
+      const updatedUser = await admin.firestore().doc(user.path).get().then(s => s.data()!)
+      expect(updatedUser.completed).toEqual({})
+    })
+  })
+})
