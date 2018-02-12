@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="https://raw.githubusercontent.com/starhoshi/mission-completed/master/docs/logo.png" />
+</p>
+
 # mission-completed
 
 [![npm version](https://badge.fury.io/js/mission-completed.svg)](https://badge.fury.io/js/mission-completed)
@@ -22,7 +26,7 @@ await Mission.markCompleted(ref, id) // second: throw CompletedError
 
 Results are saved like this.
 
-
+<img src="https://raw.githubusercontent.com/starhoshi/mission-completed/master/docs/result.png" width='70%' />
 
 ## Install
 
@@ -39,7 +43,7 @@ This sample is written in TypeScript.
 Initialize event-response in your index.ts.
 
 ```ts
-import * as Mission from '../mission-completed'
+import * as Mission from 'mission-completed'
 import * as functions from 'firebase-functions'
 
 Mission.initialize(functions.config().firebase)
@@ -52,15 +56,12 @@ If mission has already been completed, throw CompletedError in `Mission.markComp
 ```ts
 exports.updateUser = functions.firestore.document('users/{userId}')
   .onCreate(async event => {
-    if (event.data.data()!.updated) { // prevent infinite loop
-      return undefined
-    }
-
     try {
       await Mission.markCompleted(event.data.ref, 'updateUser')
     } catch (error) {
       if (error.constructor === Mission.CompletedError) {
         console.error(error, 'Mission has already been completed.')
+        return Promise.reject(error)
       }
     }
 
