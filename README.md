@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="https://raw.githubusercontent.com/starhoshi/mission-completed/master/docs/logo.png" />
+</p>
+
 # mission-completed
 
 [![npm version](https://badge.fury.io/js/mission-completed.svg)](https://badge.fury.io/js/mission-completed)
@@ -22,7 +26,7 @@ await Mission.markCompleted(ref, id) // second: throw CompletedError
 
 Results are saved like this.
 
-
+<img src="https://raw.githubusercontent.com/starhoshi/mission-completed/master/docs/result.png" width='70%' />
 
 ## Install
 
