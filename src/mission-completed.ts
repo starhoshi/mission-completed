@@ -1,6 +1,5 @@
 import * as functions from 'firebase-functions'
 import * as FirebaseFirestore from '@google-cloud/firestore'
-import { DeltaDocumentSnapshot } from 'firebase-functions/lib/providers/firestore'
 
 let firestore: FirebaseFirestore.Firestore
 
