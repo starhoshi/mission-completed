@@ -21,7 +21,7 @@ let user: FirebaseFirestore.DocumentReference
 const id = 'test'
 
 beforeEach(async () => {
-  user = await admin.firestore().collection('user').add({ name: 'test' })
+  user = await admin.firestore().collection('mission-user').add({ name: 'test' })
 })
 
 describe('markCompleted', async () => {

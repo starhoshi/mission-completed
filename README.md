@@ -20,6 +20,10 @@ await Mission.markCompleted(ref, id) // first: success
 await Mission.markCompleted(ref, id) // second: throw CompletedError
 ```
 
+Results are saved like this.
+
+
+
 ## Install
 
 ```
