@@ -1,5 +1,8 @@
 # mission-completed
 
+[![npm version](https://badge.fury.io/js/mission-completed.svg)](https://badge.fury.io/js/mission-completed)
+[![Build Status](https://travis-ci.org/starhoshi/mission-completed.svg?branch=master)](https://travis-ci.org/starhoshi/mission-completed)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bb251ccd81c148cda6cf7322da394e3a)](https://www.codacy.com/app/kensuke1751/mission-completed?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=starhoshi/mission-completed&amp;utm_campaign=Badge_Grade)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 > Note: Trigger events are delivered at least once, which means that rarely, spurious duplicates may occur.
