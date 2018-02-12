@@ -5,7 +5,11 @@
   "main": "out/mission-completed.js",
   "types": "out/mission-completed.d.ts",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tslint -p tslint.json && tsc -d",
+    "publish:patch": "yarn run build && npm version patch && git push origin master && npm publish --access=public",
+    "publish:minor": "yarn run build && npm version minor && git push origin master && npm publish --access=public",
+    "publish:major": "yarn run build && npm version major && git push origin master && npm publish --access=public"
   },
   "repository": {
     "type": "git",
