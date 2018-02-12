@@ -56,15 +56,12 @@ If mission has already been completed, throw CompletedError in `Mission.markComp
 ```ts
 exports.updateUser = functions.firestore.document('users/{userId}')
   .onCreate(async event => {
-    if (event.data.data()!.updated) { // prevent infinite loop
-      return undefined
-    }
-
     try {
       await Mission.markCompleted(event.data.ref, 'updateUser')
     } catch (error) {
       if (error.constructor === Mission.CompletedError) {
         console.error(error, 'Mission has already been completed.')
+        return Promise.reject(error)
       }
     }
 
