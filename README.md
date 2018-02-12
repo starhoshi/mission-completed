@@ -43,7 +43,7 @@ This sample is written in TypeScript.
 Initialize event-response in your index.ts.
 
 ```ts
-import * as Mission from '../mission-completed'
+import * as Mission from 'mission-completed'
 import * as functions from 'firebase-functions'
 
 Mission.initialize(functions.config().firebase)
