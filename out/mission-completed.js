@@ -54,12 +54,23 @@ exports.markCompleted = (ref, id) => __awaiter(this, void 0, void 0, function* (
     }));
     return completed;
 });
-// TODO
-// export const remove = (ref: FirebaseFirestore.DocumentReference, id: string) => { }
+/**
+ * Remove id from data.completed.
+ * @param ref event.data.ref
+ * @param data event.data.data()
+ * @param id id
+ */
+exports.remove = (ref, data, id) => __awaiter(this, void 0, void 0, function* () {
+    const completed = data.completed || {};
+    delete completed[id];
+    yield ref.update({ completed: completed });
+    return completed;
+});
 /**
  * Clear completed.
  * @param ref event.data.ref
  */
-exports.clear = (ref) => {
-    return ref.update({ completed: {} });
-};
+exports.clear = (ref) => __awaiter(this, void 0, void 0, function* () {
+    yield ref.update({ completed: {} });
+    return {};
+});
