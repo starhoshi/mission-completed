@@ -90,8 +90,7 @@ describe('remove', async () => {
   describe('already marked completed', async () => {
     test('update to {}', async () => {
       await Mission.markCompleted(user, id)
-      const completedUser = await admin.firestore().doc(user.path).get().then(s => s.data()!)
-      await Mission.remove(user, completedUser, id)
+      await Mission.remove(user, id)
 
       const updatedUser = await admin.firestore().doc(user.path).get().then(s => s.data()!)
       expect(updatedUser.completed).toEqual({})
@@ -100,10 +99,8 @@ describe('remove', async () => {
     describe('multiple completed', async () => {
       test('update to {}', async () => {
         await Mission.markCompleted(user, 'other')
-        let completedUser = await admin.firestore().doc(user.path).get().then(s => s.data()!)
         await Mission.markCompleted(user, id)
-        completedUser = await admin.firestore().doc(user.path).get().then(s => s.data()!)
-        await Mission.remove(user, completedUser, id)
+        await Mission.remove(user, id)
 
         const updatedUser = await admin.firestore().doc(user.path).get().then(s => s.data()!)
         expect(updatedUser.completed).toEqual({ 'other': true })
@@ -113,7 +110,7 @@ describe('remove', async () => {
 
   describe('not exist completed', async () => {
     test('update to {}', async () => {
-      await Mission.remove(user, {}, id)
+      await Mission.remove(user, id)
 
       const updatedUser = await admin.firestore().doc(user.path).get().then(s => s.data()!)
       expect(updatedUser.completed).toEqual({})

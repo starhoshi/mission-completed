@@ -60,10 +60,15 @@ exports.markCompleted = (ref, id) => __awaiter(this, void 0, void 0, function* (
  * @param data event.data.data()
  * @param id id
  */
-exports.remove = (ref, data, id) => __awaiter(this, void 0, void 0, function* () {
-    const completed = data.completed || {};
-    delete completed[id];
-    yield ref.update({ completed: completed });
+exports.remove = (ref, id) => __awaiter(this, void 0, void 0, function* () {
+    let completed = {};
+    yield firestore.runTransaction((transaction) => __awaiter(this, void 0, void 0, function* () {
+        return transaction.get(ref).then(tref => {
+            completed = tref.data().completed || {};
+            delete completed[id];
+            transaction.update(ref, { completed: completed });
+        });
+    }));
     return completed;
 });
 /**

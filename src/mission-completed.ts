@@ -55,10 +55,16 @@ export const markCompleted = async (ref: FirebaseFirestore.DocumentReference, id
  * @param data event.data.data()
  * @param id id
  */
-export const remove = async (ref: FirebaseFirestore.DocumentReference, data: any, id: string) => {
-  const completed = data.completed || {}
-  delete completed[id]
-  await ref.update({ completed: completed })
+export const remove = async (ref: FirebaseFirestore.DocumentReference, id: string) => {
+  let completed: { [id: string]: boolean } = {}
+  await firestore.runTransaction(async (transaction) => {
+    return transaction.get(ref).then(tref => {
+      completed = tref.data()!.completed || {}
+      delete completed[id]
+      transaction.update(ref, { completed: completed })
+    })
+  })
+
   return completed
 }
 

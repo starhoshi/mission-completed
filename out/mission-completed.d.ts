@@ -30,7 +30,9 @@ export declare const markCompleted: (ref: FirebaseFirestore.DocumentReference, i
  * @param data event.data.data()
  * @param id id
  */
-export declare const remove: (ref: FirebaseFirestore.DocumentReference, data: any, id: string) => Promise<any>;
+export declare const remove: (ref: FirebaseFirestore.DocumentReference, id: string) => Promise<{
+    [id: string]: boolean;
+}>;
 /**
  * Clear completed.
  * @param ref event.data.ref
