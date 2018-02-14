@@ -14,7 +14,31 @@ export const initialize = (adminOptions: any) => {
 /**
  * When called `markCompleted()`, CompletedError will be thrown if id is already completed.
  */
-export class CompletedError extends Error { }
+export class CompletedError extends Error {
+  id: string
+  name: 'CompletedError'
+  message: string
+  stack?: string
+
+  constructor(id: string) {
+    super(`${id} has already been completed.`)
+    this.id = id
+
+    Object.defineProperty(this, 'id', {
+      get: () => id
+    })
+
+    if (typeof Error.captureStackTrace === 'function') {
+      Error.captureStackTrace(this, this.constructor)
+    } else {
+      this.stack = (new Error()).stack
+    }
+  }
+
+  toString() {
+    return this.name + ': ' + this.id + ': ' + this.message
+  }
+}
 
 /**
  * Retun true if `id` is completed.

@@ -8,6 +8,12 @@ export declare const initialize: (adminOptions: any) => void;
  * When called `markCompleted()`, CompletedError will be thrown if id is already completed.
  */
 export declare class CompletedError extends Error {
+    id: string;
+    name: 'CompletedError';
+    message: string;
+    stack?: string;
+    constructor(id: string);
+    toString(): string;
 }
 /**
  * Retun true if `id` is completed.

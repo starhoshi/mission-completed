@@ -54,6 +54,11 @@ describe('markCompleted', async () => {
         await Mission.markCompleted(user, id)
       } catch (e) {
         expect(e).toBeInstanceOf(Mission.CompletedError)
+        const completedError = e as Mission.CompletedError
+        expect(completedError.id).toBe(id)
+        expect(completedError.stack).toBeDefined()
+        expect(completedError.message).toBe(`${id} has already been completed.`)
+        expect(completedError).toBeDefined()
       }
     })
   })
