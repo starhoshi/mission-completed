@@ -22,7 +22,6 @@ export class CompletedError extends Error {
 
   constructor(id: string) {
     super(`${id} has already been completed.`)
-    this.id = id
 
     Object.defineProperty(this, 'id', {
       get: () => id
