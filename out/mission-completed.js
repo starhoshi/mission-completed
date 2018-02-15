@@ -55,15 +55,16 @@ exports.isCompleted = (data, id) => {
  */
 exports.markCompleted = (ref, id) => __awaiter(this, void 0, void 0, function* () {
     let completed = {};
+    const reference = firestore.doc(ref.path);
     yield firestore.runTransaction((transaction) => __awaiter(this, void 0, void 0, function* () {
-        return transaction.get(ref).then(tref => {
+        return transaction.get(reference).then(tref => {
             if (exports.isCompleted(tref.data(), id)) {
                 throw new CompletedError(id);
             }
             else {
                 completed = tref.data().completed || {};
                 completed[id] = true;
-                transaction.update(ref, { completed: completed });
+                transaction.update(reference, { completed: completed });
             }
         });
     }));
