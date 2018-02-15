@@ -57,14 +57,15 @@ export const isCompleted = (data: any, id: string) => {
  */
 export const markCompleted = async (ref: FirebaseFirestore.DocumentReference, id: string) => {
   let completed: { [id: string]: boolean } = {}
+  const reference = firestore.doc(ref.path)
   await firestore.runTransaction(async (transaction) => {
-    return transaction.get(ref).then(tref => {
+    return transaction.get(reference).then(tref => {
       if (isCompleted(tref.data()!, id)) {
         throw new CompletedError(id)
       } else {
         completed = tref.data()!.completed || {}
         completed[id] = true
-        transaction.update(ref, { completed: completed })
+        transaction.update(reference, { completed: completed })
       }
     })
   })
