@@ -51,7 +51,7 @@ describe('markCompleted', async () => {
 
       expect.hasAssertions()
       try {
-        await Mission.markCompleted(user, id)
+        const aaa = await Mission.markCompleted(user, id)
       } catch (e) {
         expect(e).toBeInstanceOf(Mission.CompletedError)
         const completedError = e as Mission.CompletedError

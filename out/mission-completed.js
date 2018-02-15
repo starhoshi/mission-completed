@@ -23,7 +23,6 @@ exports.initialize = (adminOptions) => {
 class CompletedError extends Error {
     constructor(id) {
         super(`${id} has already been completed.`);
-        this.id = id;
         Object.defineProperty(this, 'id', {
             get: () => id
         });
@@ -78,11 +77,12 @@ exports.markCompleted = (ref, id) => __awaiter(this, void 0, void 0, function* (
  */
 exports.remove = (ref, id) => __awaiter(this, void 0, void 0, function* () {
     let completed = {};
+    const reference = firestore.doc(ref.path);
     yield firestore.runTransaction((transaction) => __awaiter(this, void 0, void 0, function* () {
-        return transaction.get(ref).then(tref => {
+        return transaction.get(reference).then(tref => {
             completed = tref.data().completed || {};
             delete completed[id];
-            transaction.update(ref, { completed: completed });
+            transaction.update(reference, { completed: completed });
         });
     }));
     return completed;
