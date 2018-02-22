@@ -1,6 +1,6 @@
 {
   "name": "mission-completed",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Stop processing even if Cloud Functions fires multiple times.",
   "main": "out/mission-completed.js",
   "types": "out/mission-completed.d.ts",
