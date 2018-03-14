@@ -9,12 +9,7 @@ beforeAll(() => {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
   })
-  Mission.initialize(
-    {
-      projectId: 'sandbox-329fc',
-      keyFilename: './sandbox-329fc-firebase-adminsdk.json'
-    }
-  )
+  Mission.initialize(admin.firestore())
 })
 
 let user: FirebaseFirestore.DocumentReference

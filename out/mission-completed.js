@@ -8,14 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const FirebaseFirestore = require("@google-cloud/firestore");
 let firestore;
 /**
  * Initialize in your index.ts.
  * @param adminOptions functions.config().firebase
  */
-exports.initialize = (adminOptions) => {
-    firestore = new FirebaseFirestore.Firestore(adminOptions);
+exports.initialize = (_firestore) => {
+    firestore = _firestore;
 };
 /**
  * When called `markCompleted()`, CompletedError will be thrown if id is already completed.

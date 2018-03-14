@@ -3,7 +3,7 @@ import * as FirebaseFirestore from '@google-cloud/firestore';
  * Initialize in your index.ts.
  * @param adminOptions functions.config().firebase
  */
-export declare const initialize: (adminOptions: any) => void;
+export declare const initialize: (_firestore: FirebaseFirestore.Firestore) => void;
 /**
  * When called `markCompleted()`, CompletedError will be thrown if id is already completed.
  */

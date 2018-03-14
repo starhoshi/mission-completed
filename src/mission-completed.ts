@@ -7,8 +7,8 @@ let firestore: FirebaseFirestore.Firestore
  * Initialize in your index.ts.
  * @param adminOptions functions.config().firebase
  */
-export const initialize = (adminOptions: any) => {
-  firestore = new FirebaseFirestore.Firestore(adminOptions)
+export const initialize = (_firestore: FirebaseFirestore.Firestore) => {
+  firestore = _firestore
 }
 
 /**
